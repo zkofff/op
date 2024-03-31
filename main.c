@@ -5,7 +5,7 @@
 #include "libs/data_structures/vector/vectorVoid.h"
 #include "libs/data_structures/matrix/matrix.h"
 
-int main() {
+int main(){
     tests();
     return 0;
 }
