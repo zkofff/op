@@ -2,34 +2,34 @@
 #include <assert.h>
 #include <stdio.h>
 #include "bitset.h"
-bitset bitset_create(unsigned maxValue) {
+bitset bitset_create(unsigned maxValue){
     bitset result;
     result.values = 0;
     result.maxValue = maxValue;
     return result;
 }
-bool bitset_in(bitset set, unsigned int value) {
-    if (set.values & (1 << value) && value <= set.maxValue) {
+bool bitset_in(bitset set, unsigned int value){
+    if (set.values & (1 << value) && value <= set.maxValue){
         return true;
     } else {
         return false;
     }
 }
-bool bitset_isEqual(bitset set1, bitset set2) {
-    if (set1.maxValue != set2.maxValue) {
+bool bitset_isEqual(bitset set1, bitset set2){
+    if (set1.maxValue != set2.maxValue){
         return false;
     }
-    for (int i = 0; i <= set1.maxValue; i++) {
-        if (bitset_in(set1, i) != bitset_in(set2, i)) {
+    for (int i = 0; i <= set1.maxValue; i++){
+        if (bitset_in(set1, i) != bitset_in(set2, i)){
             return false;
         }
     }
     return true;
 }
-bool bitset_isSubset(bitset subset, bitset set) {
-    if (subset.values <= set.values && subset.maxValue <= set.maxValue) {
+bool bitset_isSubset(bitset subset, bitset set){
+    if (subset.values <= set.values && subset.maxValue <= set.maxValue){
         for (int i = 0; i <= subset.maxValue; i++) {
-            if (bitset_in(subset, i) && !bitset_in(set, i)) {
+            if (bitset_in(subset, i) && !bitset_in(set, i)){
                 return false;
             }
         }
@@ -38,61 +38,61 @@ bool bitset_isSubset(bitset subset, bitset set) {
         return false;
     }
 }
-void bitset_insert(bitset *set, unsigned int value) {
-    if (value <= set->maxValue) {
+void bitset_insert(bitset *set, unsigned int value){
+    if (value <= set->maxValue){
         set->values |= (1 << value);
     }
 }
-void bitset_deleteElement(bitset *set, unsigned int value) {
-    if (bitset_in(*set, value)) {
+void bitset_deleteElement(bitset *set, unsigned int value){
+    if (bitset_in(*set, value)){
         set->values &= ~(1 << value);
     }
 }
-bitset bitset_union(bitset set1, bitset set2) {
+bitset bitset_union(bitset set1, bitset set2){
     assert(set1.maxValue == set2.maxValue);
     bitset result = bitset_create(set1.maxValue);
     result.values = set1.values | set2.values;
     return result;
 }
-bitset bitset_intersection(bitset set1, bitset set2) {
+bitset bitset_intersection(bitset set1, bitset set2){
     assert(set1.maxValue == set2.maxValue);
     bitset result = bitset_create(set1.maxValue);
     result.values = set1.values & set2.values;
     return result;
 }
-bitset bitset_difference(bitset set1, bitset set2) {
+bitset bitset_difference(bitset set1, bitset set2){
     assert(set1.maxValue == set2.maxValue);
     bitset result = bitset_create(set1.maxValue);
     result.values = set1.values & ~set2.values;
     return result;
 }
-bitset bitset_symmetricDifference(bitset set1, bitset set2) {
+bitset bitset_symmetricDifference(bitset set1, bitset set2){
     assert(set1.maxValue == set2.maxValue);
     bitset result = bitset_create(set1.maxValue);
     result.values = set1.values ^ set2.values;
     return result;
 }
-bitset bitset_complement(bitset set) {
+bitset bitset_complement(bitset set){
     bitset result = bitset_create(set.maxValue);
     result.values = ~set.values;
     return result;
 }
-void bitset_print(bitset set) {
+void bitset_print(bitset set){
     printf("{");
     int is_empty = true;
-    for (int i = 0; i <= set.maxValue; i++) {
-        if (bitset_in(set, i)) {
+    for (int i = 0; i <= set.maxValue; i++){
+        if (bitset_in(set, i)){
             printf("%d, ", i);
             is_empty = false;
         }
     }
-    if (is_empty) {
+    if (is_empty){
         printf("}\n");
     } else {
         printf("\b\b}\n");
     }
 }
-void test_bitset_union1() {
+void test_bitset_union1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset set2 = bitset_create(10);
@@ -105,7 +105,7 @@ void test_bitset_union1() {
     bitset_insert(&expected_set, 6);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_union2() {
+void test_bitset_union2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 2);
     bitset_insert(&set1, 4);
@@ -119,29 +119,29 @@ void test_bitset_union2() {
     bitset_insert(&expected_set, 6);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_union() {
+void test_bitset_union(){
     test_bitset_union1();
     test_bitset_union2();
 }
-void test_bitset_in1() {
+void test_bitset_in1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
     bitset_insert(&set1, 6);
     assert(!bitset_in(set1, 5));
 }
-void test_bitset_in2() {
+void test_bitset_in2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
     bitset_insert(&set1, 6);
     assert(bitset_in(set1, 4));
 }
-void test_bitset_in() {
+void test_bitset_in(){
     test_bitset_in1();
     test_bitset_in2();
 }
-void test_bitset_isSubset1() {
+void test_bitset_isSubset1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
@@ -151,7 +151,7 @@ void test_bitset_isSubset1() {
     bitset_insert(&set2, 6);
     assert(bitset_isSubset(set2, set1));
 }
-void test_bitset_isSubset2() {
+void test_bitset_isSubset2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
@@ -161,11 +161,11 @@ void test_bitset_isSubset2() {
     bitset_insert(&set2, 6);
     assert(!bitset_isSubset(set2, set1));
 }
-void test_bitset_isSubset() {
+void test_bitset_isSubset(){
     test_bitset_isSubset1();
     test_bitset_isSubset2();
 }
-void test_bitset_deleteElement() {
+void test_bitset_deleteElement(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 2);
@@ -174,7 +174,7 @@ void test_bitset_deleteElement() {
     bitset_insert(&result, 2);
     assert(bitset_isEqual(set1, result));
 }
-void test_bitset_intersection1() {
+void test_bitset_intersection1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
@@ -186,7 +186,7 @@ void test_bitset_intersection1() {
     bitset_insert(&expected_set, 4);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_intersection2() {
+void test_bitset_intersection2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 2);
     bitset_insert(&set1, 3);
@@ -197,11 +197,11 @@ void test_bitset_intersection2() {
     bitset expected_set = bitset_create(10);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_intersection() {
+void test_bitset_intersection(){
     test_bitset_intersection1();
     test_bitset_intersection2();
 }
-void test_bitset_difference1() {
+void test_bitset_difference1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
@@ -213,7 +213,7 @@ void test_bitset_difference1() {
     bitset_insert(&expected_set, 1);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_difference2() {
+void test_bitset_difference2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 2);
     bitset_insert(&set1, 3);
@@ -226,11 +226,11 @@ void test_bitset_difference2() {
     bitset_insert(&expected_set, 3);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_difference() {
+void test_bitset_difference(){
     test_bitset_difference1();
     test_bitset_difference2();
 }
-void test_bitset_symmetricDifference1() {
+void test_bitset_symmetricDifference1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 4);
@@ -243,7 +243,7 @@ void test_bitset_symmetricDifference1() {
     bitset_insert(&expected_set, 6);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_symmetricDifference2() {
+void test_bitset_symmetricDifference2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 2);
     bitset_insert(&set1, 3);
@@ -258,11 +258,11 @@ void test_bitset_symmetricDifference2() {
     bitset_insert(&expected_set, 6);
     assert(bitset_isEqual(result, expected_set));
 }
-void test_bitset_symmetricDifference() {
+void test_bitset_symmetricDifference(){
     test_bitset_symmetricDifference1();
     test_bitset_symmetricDifference2();
 }
-void test_bitset_complement1() {
+void test_bitset_complement1(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 3);
@@ -279,7 +279,7 @@ void test_bitset_complement1() {
     bitset result = bitset_complement(set1);
     assert(bitset_isEqual(result, set2));
 }
-void test_bitset_complement2() {
+void test_bitset_complement2(){
     bitset set1 = bitset_create(10);
     bitset_insert(&set1, 1);
     bitset_insert(&set1, 2);
@@ -296,11 +296,11 @@ void test_bitset_complement2() {
     bitset result = bitset_complement(set1);
     assert(bitset_isEqual(result, set2));
 }
-void test_bitset_complement() {
+void test_bitset_complement(){
     test_bitset_complement1();
     test_bitset_complement2();
 }
-void test_bitset() {
+void test_bitset(){
     test_bitset_union();
     test_bitset_in();
     test_bitset_isSubset();
