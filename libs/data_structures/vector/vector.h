@@ -1,11 +1,14 @@
 #ifndef ОП_VECTOR_H
 #define ОП_VECTOR_H
+
+#include <stdio.h>
+#include <stdbool.h>
+
 typedef struct vector {
     int *data; // указатель на элементы вектора
     size_t size; // размер вектора
     size_t capacity; // вместимость вектора
 } vector;
-#endif
 
 vector createVector(size_t n);
 
@@ -46,3 +49,7 @@ void test_atVector_requestToLastElement();
 void test_back_oneElementInVector();
 
 void test_front_oneElementInVector();
+
+void test();
+
+#endif
