@@ -477,7 +477,41 @@ void sortRowsByMinElement(matrix *m) {
     }
 }
 
-
+int getMin(int *a, int n) {
+    int result = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] < result) {
+            result = a[i];
+        }
+    }
+    return result;
+}
+void sortColsByMinElement(matrix *m) {
+    int cols = m->nCols;
+    int rows = m->nRows;
+    for (int i = 0; i < cols - 1; i++) {
+        int *column = malloc(sizeof(int) * rows);
+        for (int j = 0; j < rows; j++) {
+            column[j] = m->values[j][i];
+        }
+        int min = getMin(column, rows);
+        int index = i;
+        for (int j = i + 1; j < cols; j++) {
+            int *column2 = malloc(sizeof(int) * rows);
+            for (int g = 0; g < rows; g++) {
+                column2[g] = m->values[g][j];
+            }
+            int new_min = getMin(column2, rows);
+            if (new_min < min) {
+                min = new_min;
+                index = j;
+            }
+        }
+        if (index != i) {
+            swapColumns(m, index, i);
+        }
+    }
+}
 
 
 
