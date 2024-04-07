@@ -440,3 +440,20 @@ void test_matrix() {
     test_get_min_value_pos();
     test_get_max_value_pos();
 }
+
+void swapRowsWithMinAndMaxEls(matrix *m) {
+    position max_pos = getMaxValuePos(*m);
+    position min_pos = getMinValuePos(*m);
+    if (max_pos.rowIndex != min_pos.rowIndex) {
+        swapRows(m, max_pos.rowIndex, min_pos.rowIndex);
+    }
+}
+int getMax(int *a, int n) {
+    int result = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] > result) {
+            result = a[i];
+        }
+    }
+    return result;
+}
