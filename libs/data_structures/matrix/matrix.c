@@ -448,6 +448,7 @@ void swapRowsWithMinAndMaxEls(matrix *m) {
         swapRows(m, max_pos.rowIndex, min_pos.rowIndex);
     }
 }
+
 int getMax(int *a, int n) {
     int result = a[0];
     for (int i = 1; i < n; i++) {
@@ -456,4 +457,22 @@ int getMax(int *a, int n) {
         }
     }
     return result;
+}
+
+void sortRowsByMinElement(matrix *m) {
+    int cols = m->nCols;
+    for (int i = 0; i < cols - 1; i++) {
+        int max = getMax(m->values[i], cols);
+        int row_index = i;
+        for (int j = i + 1; j < cols; j++) {
+            int max_of_row = getMax(m->values[j], cols);
+            if (max_of_row < max) {
+                max = max_of_row;
+                row_index = j;
+            }
+        }
+        if (row_index != i) {
+            swapRows(m, i, row_index);
+        }
+    }
 }
