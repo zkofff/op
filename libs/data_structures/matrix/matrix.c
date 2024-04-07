@@ -566,5 +566,18 @@ void transposeIfMatrixHasNotEqualSumOfRows(matrix *m) {
     }
 }
 
+bool isMutuallyInverseMatrices(matrix m1, matrix m2) {
+    if (isSquareMatrix(&m1) && isSquareMatrix(&m2) && m1.nRows == m2.nRows) {
+        matrix mul = mulMatrices(m1, m2);
+        if (isEMatrix(&mul)) {
+            freeMemMatrix(&mul);
+            return true;
+        } else {
+            freeMemMatrix(&mul);
+            return false;
+        }
+    }
+}
+
 
 
