@@ -752,5 +752,14 @@ long long findSumOfMaxesOfPseudoDiagonal(matrix m) {
     return res;
 }
 
+void test_findSumOfMaxesOfPseudoDiagonal() {
+    matrix m = createMatrixFromArray((int[]) {3, 2, 5, 4,
+                                              1, 3, 6, 3,
+                                              3, 2, 1, 2},3, 4);
+    assert(findSumOfMaxesOfPseudoDiagonal(m) == 20);
+    freeMemMatrix(&m);
+}
+
+
 
 
