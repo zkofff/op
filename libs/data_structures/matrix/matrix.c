@@ -731,6 +731,26 @@ void test_isMutuallyInverseMatrices_3() {
     freeMemMatrix(&m2);
 }
 
+int max(int a, int b){
+    return a > b ? a : b;
+}
+long long findSumOfMaxesOfPseudoDiagonal(matrix m) {
+    long long res = 0;
+    for (int i = 0; i < m.nCols + m.nRows - 1; i++) {
+        int row = max(0, m.nRows - i - 1);
+        int col = max(0, i - m.nRows + 1);
+        if (row != col) {
+            int max_value = INT_MIN;
+            while (row < m.nRows && col < m.nCols) {
+                max_value = max(max_value, m.values[row][col]);
+                row++;
+                col++;
+            }
+            res += max_value;
+        }
+    }
+    return res;
+}
 
 
 
