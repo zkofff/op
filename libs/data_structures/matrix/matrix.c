@@ -760,6 +760,25 @@ void test_findSumOfMaxesOfPseudoDiagonal() {
     freeMemMatrix(&m);
 }
 
+int getMinInArea(matrix m) {
+    if (m.nRows > 0 && m.nCols > 0) {
+        position max_pos = getMaxValuePos(m);
+        int min = m.values[max_pos.rowIndex][max_pos.colIndex];
+        for (int i = 0; i < m.nRows; i++) {
+            int index = max_pos.colIndex - (max_pos.rowIndex - i);
+            for (int j = index; j < max_pos.rowIndex*2 - i + 1 && j < m.nCols;
+                 j++) {
+                if (m.values[i][j] < min) {
+                    min = m.values[i][j];
+                }
+            }
+        }
+        return min;
+    } else {
+        return 0;
+    }
+}
+
 
 
 
