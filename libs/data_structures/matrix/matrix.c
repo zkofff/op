@@ -476,3 +476,13 @@ void sortRowsByMinElement(matrix *m) {
         }
     }
 }
+
+int getMin(int *a, int n) {
+    int result = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] < result) {
+            result = a[i];
+        }
+    }
+    return result;
+}
