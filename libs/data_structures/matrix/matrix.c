@@ -779,6 +779,12 @@ int getMinInArea(matrix m) {
     }
 }
 
+void test_getMinInArea_1() {
+    matrix m = createMatrixFromArray((int[]) {},0, 0);
+    assert(getMinInArea(m) == 0);
+    freeMemMatrix(&m);
+}
+
 
 
 
