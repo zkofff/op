@@ -514,3 +514,20 @@ void sortColsByMinElement(matrix *m) {
     }
 }
 
+matrix mulMatrices(matrix m1, matrix m2) {
+    int rows = m1.nRows;
+    int cols = m1.nCols;
+    matrix result = getMemMatrix(rows, cols);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int sum = 0;
+            for (int g = 0; g < rows; g++) {
+                sum += m1.values[i][g] * m2.values[g][j];
+            }
+            result.values[i][j] = sum;
+        }
+    }
+    return result;
+}
+
+
