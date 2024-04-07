@@ -534,6 +534,37 @@ void getSquareOfMatrixIfSymmetric(matrix *m) {
     }
 }
 
+bool isUnique(int *a, int n) {
+    int *unique_numbers = malloc(sizeof(int)*n);
+    int len = 0;
+    for (int i = 0; i < n; i++) {
+        bool is_in = false;
+        for (int j = 0; j < len && !is_in; j++) {
+            if (a[i] == unique_numbers[j]) {
+                is_in = true;
+            }
+        }
+        if (!is_in) {
+            unique_numbers[len++] = a[i];
+        } else {
+            free(unique_numbers);
+            return false;
+        }
+    }
+    return true;
+}
+void transposeIfMatrixHasNotEqualSumOfRows(matrix *m) {
+    if (isSquareMatrix(m)) {
+        int *sums = malloc(sizeof(int)*m->nRows);
+        for (int i = 0; i < m->nRows; i++) {
+            sums[i] = getSum(m->values[i], m->nCols);
+        }
+        if (isUnique(sums, m->nRows)) {
+            transposeSquareMatrix(m);
+            free(sums);
+        }
+    }
+}
 
 
 
