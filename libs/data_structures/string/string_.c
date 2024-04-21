@@ -50,3 +50,39 @@ int strcmp(const char *lhs, const char *rhs) {
     return *lhs - *rhs;
 }
 
+char* copy(const char *beginSource, const char *endSource, char
+*beginDestination) {
+    size_t size = endSource - beginSource;
+    memcpy(beginDestination, beginSource, size);
+    *(beginDestination + size) = '\0';
+    return beginDestination + size;
+}
+char* copyIf(char *beginSource, const char *endSource, char *beginDestination,
+             int (*f)(int)) {
+    while (beginSource != endSource) {
+        if (f( *beginSource)) {
+            *beginDestination = *beginSource;
+            beginDestination++;
+        }
+        beginSource++;
+    }
+    *beginDestination = '\0';
+    return beginDestination;
+}
+char* copyIfReverse(char *rbeginSource, const char *rendSource, char
+*beginDestination, int (*f)(int)) {
+    char *beginDestination_ = beginDestination;
+    while (rbeginSource >= rendSource) {
+        if (f(*rbeginSource)) {
+            *beginDestination_ = *rbeginSource;
+            beginDestination_++;
+        }
+        rbeginSource--;
+    }
+    *beginDestination_ = '\0';
+    return beginDestination_;
+}
+int is_h(char s) {
+    return s == 'h' || s == 'w';
+}
+
