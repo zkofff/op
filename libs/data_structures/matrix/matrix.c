@@ -1211,4 +1211,4 @@ void test_getSpecialScalarProduct() {
                                               7, 8, 9}, 3, 3);
     assert(getSpecialScalarProduct(m) == 102);
     freeMemMatrix(&m)
-}
+}ллараполпспс с   бююьбти   итмсодвваыввв

@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.25)
-project(C)
+project(ОП)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(main.c libs/data_structures/vector/vectorVoid.c libs/data_structures/vector/vectorVoid.c libs/data_structures/vector/vectorVoid.h libs/data_structures/bitset/bitset.c)
+add_executable(ОП main.c)
 
 add_subdirectory(libs)
 target_link_libraries(ОП data_structures)
 target_link_libraries(ОП algorithms)
+target_link_libraries(ОП str)
