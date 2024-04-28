@@ -750,3 +750,41 @@ void test_join_strings() {
         char s3[] = "one two eno";
         assert(has_words_with_similar_characters(s3));
     }
+
+    void get_string_without_words_like_last_word(char *string, char *result) {
+        getBagOfWords(&_bag, string);
+        int size = 0;
+        if (_bag.size == 0) {
+            return;
+        } else {
+            for (int i = 0; i < _bag.size - 1; i++) {
+                if (!are_two_words_equal(_bag.words[i], _bag.words[_bag.size -
+                                                                   1])) {
+                    for (char *s = _bag.words[i].begin; s != _bag.words[i].end;
+                         s++) {
+                        result[size++] = *s;
+                    }
+                    result[size++] = ' ';
+                }
+            }
+            result[size--] = '\0';
+        }
+    }
+    void test_get_string_without_words_like_last_word() {
+        char s1[] = "";
+        char res1[MAX_STRING_SIZE + 1];
+        get_string_without_words_like_last_word(s1, res1);
+        ASSERT_STRING(res1, "");
+        char s2[] = "one one one";
+        char res2[MAX_STRING_SIZE];
+        get_string_without_words_like_last_word(s2, res2);
+        ASSERT_STRING(res2, "");
+        char s3[] = "one zero one";
+        char res3[MAX_STRING_SIZE + 1];
+        get_string_without_words_like_last_word(s3, res3);
+        ASSERT_STRING(res3, "zero");
+        char s4[] = "two dva zero one";
+        char res4[MAX_STRING_SIZE + 1];
+        get_string_without_words_like_last_word(s4, res4);
+        ASSERT_STRING(res4, "two dva zero");
+    }
