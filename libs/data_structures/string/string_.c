@@ -514,3 +514,51 @@ void test_count_palindromes() {
     assert(count_palindromes(string_2) == 1);
 }
 
+void join_strings(char *string1, char *string2, char *result) {
+    WordDescriptor word1, word2;
+    bool isW1Found, isW2Found;
+    char *beginSearch1 = string1, *beginSearch2 = string2;
+    while ((isW1Found = getWord(beginSearch1, &word1)), (isW2Found =
+                                                                 getWord(beginSearch2, &word2)), isW1Found || isW2Found) {
+        if (isW1Found && isW2Found) {
+            for (char *s = word1.begin; s != word1.end; s++) {
+                *result++ = *s;
+            }
+            *result++ = ' ';
+            for (char *s = word2.begin; s != word2.end; s++) {
+                *result++ = *s;
+            }
+            beginSearch1 = word1.end;
+            beginSearch2 = word2.end;
+            if ((isW1Found = getWord(beginSearch1, &word1)), (isW2Found =
+                                                                      getWord(beginSearch2, &word2)), isW1Found || isW2Found) {
+                *result++ = ' ';
+            }
+        } else if (isW1Found) {
+            for (char *s = word1.begin; s != beginSearch1 +
+                                             strlen_(beginSearch1); s++) {
+                *result++ = *s;
+            }
+            return;
+        } else {
+            for (char *s = word2.begin; s != beginSearch2 +
+                                             strlen_(beginSearch2); s++) {
+                *result++ = *s;
+            }
+            return;
+        }
+    }
+}
+void test_join_strings() {
+    char result1[MAX_STRING_SIZE];
+    join_strings("", "", result1);
+    ASSERT_STRING(result1, "");
+    char result2[MAX_STRING_SIZE];
+    join_strings("one three", "two four", result2);
+    ASSERT_STRING(result2, "one two three four");
+    char result3[MAX_STRING_SIZE];
+    join_strings("one three five", "two four", result3);
+    ASSERT_STRING(result3, "one two three four five");
+    char result4[MAX_STRING_SIZE];
+    join_strings("one three", "two four five", result4);
+    ASSERT_STRING(result4, "one two three four five");
