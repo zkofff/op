@@ -331,4 +331,34 @@ void test_WordDescriptor() {
     ASSERT_STRING(string3, "1338hello");
 }
 
+void replace_digits_with_spaces(char *string) {
+    char _stringBuffer[MAX_STRING_SIZE + 1];
+    char *end = string + strlen_(string);
+    char *readBuffer = _stringBuffer;
+    copy(string, end, readBuffer);
+    while (*readBuffer != '\0') {
+        if (isalpha(*readBuffer)) {
+            *string++ = *readBuffer;
+        } else {
+            while (isdigit(*readBuffer) && *readBuffer != '0') {
+                *string++ = ' ';
+                (*readBuffer)--;
+            }
+        }
+        readBuffer++;
+    }
+    *string = '\0';
+}
+void test_replace_digits_with_spaces() {
+    char string_1[] = "";
+    replace_digits_with_spaces(string_1);
+    ASSERT_STRING("", string_1);
+    char string_2[] = "hl";
+    replace_digits_with_spaces(string_2);
+    ASSERT_STRING("hl", string_2);
+    char string_3[] = "h12l";
+    replace_digits_with_spaces(string_3);
+    ASSERT_STRING("h l", string_3);
+}
+
 
