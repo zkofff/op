@@ -267,4 +267,68 @@ void test_removeExtraSpaces_1() {
     ASSERT_STRING(s1, s2);
 }
 
+int getWord(char *beginSearch, WordDescriptor *word) {
+    word->begin = findNonSpace(beginSearch);
+    if (*word->begin == '\0')
+        return 0;
+    word->end = findSpace(word->begin);
+    return 1;
+}
+void digitToStart(WordDescriptor word) {
+    char _stringBuffer[MAX_STRING_SIZE + 1];
+    char *endStringBuffer = copy(word.begin, word.end,_stringBuffer);
+    char *recPosition = copyIf(_stringBuffer, endStringBuffer, word.begin,
+                               isdigit);
+    copyIf(_stringBuffer, endStringBuffer, recPosition, isalpha);
+}
+void digitToEnd(WordDescriptor word) {
+    char _stringBuffer[MAX_STRING_SIZE + 1];
+    char *endStringBuffer = copy(word.begin, word.end,_stringBuffer);
+    char *recPosition = copyIf(_stringBuffer, endStringBuffer, word.begin,
+                               isalpha);
+    copyIf(_stringBuffer, endStringBuffer, recPosition, isdigit);
+}
+void digitToEndAndReverse(WordDescriptor word) {
+    char _stringBuffer[MAX_STRING_SIZE + 1];
+    char *endStringBuffer = copy(word.begin, word.end,_stringBuffer);
+    char *recPosition = copyIf(_stringBuffer, endStringBuffer, word.begin,
+                               isalpha);
+    copyIfReverse(endStringBuffer, _stringBuffer, recPosition, isdigit);
+}
+void digits_to_end(char *string) {
+    WordDescriptor word;
+    char *beginSearch = string;
+    while (getWord(beginSearch, &word)) {
+        digitToEnd(word);
+        beginSearch = word.end;
+    }
+}
+void digits_to_end_and_reverse(char *string) {
+    WordDescriptor word;
+    char *beginSearch = string;
+    while (getWord(beginSearch, &word)) {
+        digitToEndAndReverse(word);
+        beginSearch = word.end;
+    }
+}
+void letters_to_end(char *string) {
+    WordDescriptor word;
+    char *beginSearch = string;
+    while (getWord(beginSearch, &word)) {
+        digitToStart(word);
+        beginSearch = word.end;
+    }
+}
+void test_WordDescriptor() {
+    char string1[] = "he13l3lo8";
+    digits_to_end(string1);
+    ASSERT_STRING("hello1338", string1);
+    char string2[] = "he13l3lo8";
+    digits_to_end_and_reverse(string2);
+    ASSERT_STRING("hello8331", string2);
+    char string3[] = "he13l3lo8";
+    letters_to_end(string3);
+    ASSERT_STRING(string3, "1338hello");
+}
+
 
