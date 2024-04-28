@@ -562,3 +562,31 @@ void test_join_strings() {
     char result4[MAX_STRING_SIZE];
     join_strings("one three", "two four five", result4);
     ASSERT_STRING(result4, "one two three four five");
+
+    void reverse_words_order(char *string) {
+        getBagOfWords(&_bag, string);
+        char result[MAX_STRING_SIZE + 1];
+        int size = 0;
+        for (int i = _bag.size; i > 0; i--) {
+            for (char *s = _bag.words[i - 1].begin; s != _bag.words[i - 1].end;
+                 s++) {
+                result[size++] = *s;
+            }
+            if (i != 1) {
+                result[size++] = ' ';
+            }
+        }
+        result[size++] = '\0';
+        copy(result, result + size, string);
+    }
+    void test_reverse_words_order() {
+        char string1[] = "";
+        reverse_words_order(string1);
+        ASSERT_STRING(string1, "");
+        char string2[] = "one";
+        reverse_words_order(string2);
+        ASSERT_STRING(string2, "one");
+        char string3[] = "one two three";
+        reverse_words_order(string3);
+        ASSERT_STRING(string3, "three two one");
+    }
