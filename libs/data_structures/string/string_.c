@@ -680,3 +680,33 @@ void test_join_strings() {
         char s3_2[] = "Two Four";
         ASSERT_STRING(getLastWordInFirstStringInSecondString(s3_1, s3_2), "");
     }
+
+    void wordDescriptorToString(WordDescriptor word, char *destination) {
+        copy(word.begin, word.end, destination);
+    }
+    char* getLastWordInFirstStringInSecondString(char *s1, char *s2) {
+        getBagOfWords(&_bag, s1);
+        getBagOfWords(&_bag2, s2);
+        char result[MAX_WORD_SIZE + 1];
+        for (int i = _bag.size; i > 0; i--) {
+            for (int j = _bag2.size; j > 0; j--) {
+                if (are_two_words_equal(_bag.words[i - 1], _bag2.words[j - 1])) {
+                    wordDescriptorToString(_bag.words[i - 1], result);
+                    return result;
+                }
+            }
+        }
+        return "";
+    }
+    void test_getLastWordInFirstStringInSecondString() {
+        char s1_1[] = "";
+        char s1_2[] = "";
+        ASSERT_STRING(getLastWordInFirstStringInSecondString(s1_1, s1_2), "");
+        char s2_1[] = "One Two Zero Three";
+        char s2_2[] = "One Zero Five";
+        ASSERT_STRING(getLastWordInFirstStringInSecondString(s2_1, s2_2),
+                      "Zero");
+        char s3_1[] = "One Three Five";
+        char s3_2[] = "Two Four";
+        ASSERT_STRING(getLastWordInFirstStringInSecondString(s3_1, s3_2), "");
+    }
