@@ -868,3 +868,51 @@ void test_join_strings() {
         delete_palindromes(s4);
         ASSERT_STRING(s4, "");
     }
+
+    void complement_smaller_string(char *string1, char *string2) {
+        getBagOfWords(&_bag, string1);
+        getBagOfWords(&_bag2, string2);
+        if (_bag.size > _bag2.size) {
+            char stringBuffer[MAX_STRING_SIZE + 1];
+            int size = 0;
+            for (size_t i = _bag2.size; i < _bag.size; i++) {
+                stringBuffer[size++] = ' ';
+                for (char *s = _bag.words[i].begin; s != _bag.words[i].end; s++)
+                {
+                    stringBuffer[size++] = *s;
+                }
+            }
+            copy(stringBuffer, stringBuffer + size, string2 + strlen_(string2));
+        } else if (_bag2.size > _bag.size) {
+            char stringBuffer[MAX_STRING_SIZE + 1];
+            int size = 0;
+            for (size_t i = _bag.size; i < _bag2.size; i++) {
+                stringBuffer[size++] = ' ';
+                for (char *s = _bag2.words[i].begin; s != _bag2.words[i].end;
+                     s++) {
+                    stringBuffer[size++] = *s;
+                }
+            }
+            copy(stringBuffer, stringBuffer + size, string1 + strlen_(string1));
+        }
+    }
+    void test_complement_smaller_string() {
+        char s1_1[] = "";
+        char s1_2[] = "";
+        complement_smaller_string(s1_1, s1_2);
+        ASSERT_STRING(s1_1, "");
+        ASSERT_STRING(s1_2, "");
+        char s2_1[] = "zero one two";
+        char s2_2[] = "three five four";
+        complement_smaller_string(s2_1, s2_2);
+        ASSERT_STRING(s2_1, "zero one two");
+        ASSERT_STRING(s2_2, "three five four");
+        char s3_1[] = "zero one two";
+        char s3_2[] = "three";
+        complement_smaller_string(s3_1, s3_2);
+        ASSERT_STRING(s3_2, "three one two");
+        char s4_1[] = "zero";
+        char s4_2[] = "five one two";
+        complement_smaller_string(s4_1, s4_2);
+        ASSERT_STRING(s4_1, "zero one two");
+    }
