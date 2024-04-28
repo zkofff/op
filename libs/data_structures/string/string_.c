@@ -916,3 +916,28 @@ void test_join_strings() {
         complement_smaller_string(s4_1, s4_2);
         ASSERT_STRING(s4_1, "zero one two");
     }
+
+    bool is_string_contain_all_letter(char *string, char *word) {
+        if (strlen_(word) == 0) {
+            return false;
+        }
+        size_t string_size = strlen_(string);
+        size_t word_size = strlen_(word);
+        for (char *s = word; s != word + word_size; s++) {
+            if (find(string, string + string_size, *s) == string + string_size) {
+                return false;
+            }
+        }
+        return true;
+    }
+    void test_is_string_contain_all_letter() {
+        char s1[] = "";
+        char w1[] = "";
+        assert(!is_string_contain_all_letter(s1, w1));
+        char s2[] = "zero one five";
+        char w2[] = "zeone";
+        assert(is_string_contain_all_letter(s2, w2));
+        char s3[] = "zero one five";
+        char w3[] = "zed";
+        assert(!is_string_contain_all_letter(s3, w3));
+    }
