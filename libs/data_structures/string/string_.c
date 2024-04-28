@@ -710,3 +710,43 @@ void test_join_strings() {
         char s3_2[] = "Two Four";
         ASSERT_STRING(getLastWordInFirstStringInSecondString(s3_1, s3_2), "");
     }
+
+    bool are_two_words_with_similar_characters(char *s1, char *s2) {
+        int symbols1[26] = {0};
+        int symbols2[26] = {0};
+        for (int i = 0; i < strlen_(s1); i++) {
+            symbols1[s1[i] - 'a'] = 1;
+        }
+        for (int i = 0; i < strlen_(s2); i++) {
+            symbols2[s2[i] - 'a'] = 1;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (symbols1[i] != symbols2[i]) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+    bool has_words_with_similar_characters(char *string) {
+        getBagOfWords(&_bag, string);
+        for (int i = 0; i < _bag.size; i++) {
+            for (int j = i + 1; j < _bag.size; j++) {
+                char word1[MAX_WORD_SIZE + 1];
+                char word2[MAX_WORD_SIZE + 1];
+                wordDescriptorToString(_bag.words[i], word1);
+                wordDescriptorToString(_bag.words[j], word2);
+                if (are_two_words_with_similar_characters(word1, word2)) {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    void test_has_words_with_similar_characters() {
+        char s1[] = "";
+        assert(!has_words_with_similar_characters(s1));
+        char s2[] = "one two three";
+        assert(!has_words_with_similar_characters(s2));
+        char s3[] = "one two eno";
+        assert(has_words_with_similar_characters(s3));
+    }
