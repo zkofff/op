@@ -231,3 +231,39 @@ void tests_find_str() {
     test_copyIfReverse();
 }
 
+void removeNonLetters(char *s) {
+    char *endSource = s + strlen_(s);
+    char *destination = copyIf(s, endSource, s, isgraph);
+    *destination = '\0';
+}
+void assertString(const char *expected, char *got, char const *fileName, char
+const *funcName, int line) {
+    if (strcmp_(expected, got)) {
+        fprintf(stderr, "File %s\n", fileName);
+        fprintf(stderr, "%s - failed on line %d\n", funcName, line);
+        fprintf(stderr, "Expected: \"%s\"\n", expected);
+        fprintf(stderr, "Got: \"%s\"\n\n", got);
+    } else
+        fprintf(stderr, "%s - OK\n", funcName);
+}
+void test_removeNonLetters() {
+    char s1[] = "hel lo";
+    char s2[] = "hello";
+    removeNonLetters(s1);
+    ASSERT_STRING(s1, s2);
+}
+
+void removeExtraSpaces(char *s) {
+    if (strlen_(s) > 0) {
+        char *endSource = s + strlen_(s);
+        char *destination = copy_if_not_extra_spaces(s, endSource, s);
+        *destination = '\0';
+    }
+}
+void test_removeExtraSpaces_1() {
+    char s1[] = "";
+    char s2[] = "";
+    removeExtraSpaces(s1);
+    ASSERT_STRING(s1, s2);
+}
+
