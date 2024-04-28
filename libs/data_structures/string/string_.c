@@ -590,3 +590,63 @@ void test_join_strings() {
         reverse_words_order(string3);
         ASSERT_STRING(string3, "three two one");
     }
+
+    void printWordBeforeFirstWordWithA(char *s) {
+        WordDescriptor word;
+        WordBeforeFirstWordWithAReturnCode code = getWordBeforeFirstWordWithA(s,
+                                                                              &word);
+        if (code == EMPTY_STRING) {
+            printf("The string is empty.\n");
+        } else if (code == NOT_FOUND_A_WORD_WITH_A) {
+            printf("The letter 'a' or 'A' was not founded.\n");
+        } else if (code == FIRST_WORD_WITH_A) {
+            printf("The letter 'a' or 'A' was founded in first word.\n");
+        } else {
+            char *beginSearch = s;
+            char result[MAX_WORD_SIZE];
+            while (getWord(beginSearch, &word)) {
+                copy(word.begin, word.end, result);
+                getWord(word.end, &word);
+                if (find(word.begin, word.end, 'A') != word.end ||
+                    find(word.begin, word.end, 'a') != word.end) {
+                    printf("%s\n", result);
+                    return;
+                }
+                beginSearch = word.begin;
+            }
+        }
+    }
+    WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s,
+                                                                   WordDescriptor *w) {
+        if (*s == '\0') {
+            return EMPTY_STRING;
+        } else if (find(s, s + strlen_(s), 'A') != s + strlen_(s) || find(s, s +
+                                                                             strlen_(s), 'a') != s + strlen_(s)) {
+            char *beginSearch = s;
+            getWord(beginSearch, w);
+            if (find(w->begin, w->end, 'A') != w->end || find(w->begin, w->end,
+                                                              'a') != w->end) {
+                return FIRST_WORD_WITH_A;
+            } else {
+                return WORD_FOUND;
+            }
+        } else {
+            return NOT_FOUND_A_WORD_WITH_A;
+        }
+    }
+    void test_getWordBeforeFirstWordWithA() {
+        WordDescriptor word;
+        char s1[] = "";
+        printWordBeforeFirstWordWithA(s1);
+        assert(getWordBeforeFirstWordWithA(s1, &word) == EMPTY_STRING);
+        char s2[] = "ABC";
+        printWordBeforeFirstWordWithA(s2);
+        assert(getWordBeforeFirstWordWithA(s2, &word) == FIRST_WORD_WITH_A);
+        char s3[] = "BC DSS A DS AD";
+        printWordBeforeFirstWordWithA(s3);
+        assert(getWordBeforeFirstWordWithA(s3, &word) == WORD_FOUND);
+        char s4[] = "B Q WE YR OW IUWR";
+        printWordBeforeFirstWordWithA(s4);
+        assert(getWordBeforeFirstWordWithA(s4, &word) ==
+               NOT_FOUND_A_WORD_WITH_A);
+    }
