@@ -453,4 +453,28 @@ void test_are_words_ordered() {
     assert(are_words_ordered(string3));
 }
 
-
+void getBagOfWords(BagOfWords *bag, char *s) {
+    bag->size = 0;
+    WordDescriptor word;
+    char *beginSearch = s;
+    while (getWord(beginSearch, &word)) {
+        bag->words[bag->size].begin = word.begin;
+        bag->words[bag->size].end = word.end;
+        bag->size++;
+        beginSearch = word.end;
+    }
+}
+void print_words_in_reversed_order(char *string) {
+    getBagOfWords(&_bag, string);
+    char word[MAX_WORD_SIZE];
+    for (size_t i = _bag.size; i > 0; i--) {
+        copy(_bag.words[i - 1].begin, _bag.words[i - 1].end, word);
+        printf("%s\n", word);
+    }
+}
+void test_print_words_in_reversed_order() {
+    char string_1[] = "";
+    print_words_in_reversed_order(string_1);
+    char string_2[] = "One Two Three";
+    print_words_in_reversed_order(string_2);
+}
