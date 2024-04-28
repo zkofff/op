@@ -412,3 +412,45 @@ void test_replace() {
     ASSERT_STRING("0/15/2 Yasuo -=- Yasuo", string2);
 }
 
+bool are_two_words_ordered(WordDescriptor word1, WordDescriptor word2) {
+    char *string1 = word1.begin;
+    char *string2 = word2.begin;
+    while (*string1 != '\0' || *string1 != ' ') {
+        if (*string2 - 'a' < *string1 - 'a' || *string2 == '\0' || *string2
+                                                                   == ' ') {
+            return false;
+        } else if (*string2 - 'a' > *string1 - 'a') {
+            return true;
+        }
+        string1++;
+        string2++;
+    }
+    return true;
+}
+bool are_words_ordered(char *string) {
+    WordDescriptor word1, word2;
+    if (getWord(string, &word1)) {
+        word2 = word1;
+        char *string_ = word1.end;
+        while (getWord(string_, &word1)) {
+            if (!are_two_words_ordered(word2, word1)) {
+                return false;
+            }
+            word2 = word1;
+            string_ = word1.end;
+        }
+        return true;
+    } else {
+        return true;
+    }
+}
+void test_are_words_ordered() {
+    char string1[] = "";
+    assert(are_words_ordered(string1));
+    char string2[] = "zero one two";
+    assert(!are_words_ordered(string2));
+    char string3[] = "one two zero";
+    assert(are_words_ordered(string3));
+}
+
+
