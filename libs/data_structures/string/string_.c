@@ -788,3 +788,52 @@ void test_join_strings() {
         get_string_without_words_like_last_word(s4, res4);
         ASSERT_STRING(res4, "two dva zero");
     }
+
+    WordPrecedingFirstCommonWordReturnCode
+    get_word_preceding_first_common_word(char *s1, char *s2, WordDescriptor
+    *word) {
+        if (*s1 == '\0' || *s2 == '\0') {
+            return WORD_PRECEDING_EMPTY_STRING;
+        }
+        getBagOfWords(&_bag, s1);
+        getBagOfWords(&_bag2, s2);
+        for (int i = 0; i < _bag.size; i++) {
+            for (int j = 0; j < _bag2.size; j++) {
+                if (are_two_words_equal(_bag.words[i], _bag2.words[j])) {
+                    if (i > 0) {
+                        word->begin = _bag.words[i - 1].begin;
+                        word->end = _bag.words[i - 1].end;
+                        return WORD_PRECEDING_WORD_FOUND;
+                    } else {
+                        return WORD_PRECEDING_FIRST_WORDS_IS_COMMON;
+                    }
+                }
+            }
+        }
+        return WORD_PRECEDING_NOT_FOUND_COMMON_WORD;
+    }
+    void test_get_word_preceding_first_common_word() {
+        char s1_1[] = "";
+        char s1_2[] = "";
+        WordDescriptor w1;
+        assert(get_word_preceding_first_common_word(s1_1, s1_2, &w1) ==
+               WORD_PRECEDING_EMPTY_STRING);
+        char s2_1[] = "one three five";
+        char s2_2[] = "zero two four";
+        WordDescriptor w2;
+        assert(get_word_preceding_first_common_word(s2_1, s2_2, &w2) ==
+               WORD_PRECEDING_NOT_FOUND_COMMON_WORD);
+        char s3_1[] = "zero one five";
+        char s3_2[] = "five three zero";
+        WordDescriptor w3;
+        assert(get_word_preceding_first_common_word(s3_1, s3_2, &w3) ==
+               WORD_PRECEDING_FIRST_WORDS_IS_COMMON);
+        char s4_1[] = "zero one five";
+        char s4_2[] = "one five";
+        WordDescriptor w4;
+        assert(get_word_preceding_first_common_word(s4_1, s4_2, &w4) ==
+               WORD_PRECEDING_WORD_FOUND);
+        char word[MAX_WORD_SIZE + 1];
+        copy(w4.begin, w4.end, word);
+        ASSERT_STRING(word, "zero");
+    }
