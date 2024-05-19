@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <assert.h>
 
+//№1
+
 bool assert_file(char *file_name, char **true_data){
     FILE *file;
     file = fopen(file_name, "r");
@@ -81,6 +83,8 @@ void test_make_matrix_storage_by_columns(){
         test_make_matrix_storage_by_columns();
     }
 
+    //№2
+
     void represent_as_floating_point_numbers(char *file_name) {
         FILE *file;
         file = fopen(file_name, "r");
@@ -109,6 +113,8 @@ void test_make_matrix_storage_by_columns(){
         char *true_data[] = {"12343.30\n", "332.25\n", "4322.32\n", "2.33"};
         assert(assert_file("test.txt", true_data));
     }
+
+    //№3
 
     void calculate_expression(char *file_name) {
         FILE *file;
@@ -231,6 +237,8 @@ void test_make_matrix_storage_by_columns(){
         assert(assert_file("test.txt", true_data_8));
     }
 
+    //№4
+
     void save_only_words_with_sequence(char *file_name, char *sequence) {
         FILE *file;
         file = fopen(file_name, "r");
@@ -281,6 +289,8 @@ void test_make_matrix_storage_by_columns(){
         assert(assert_file("test.txt", true_data));
     }
 
+    //№5
+
     void save_only_longest_word_in_string(char *file_name) {
         FILE *file;
         file = fopen(file_name, "r");
@@ -328,4 +338,51 @@ void test_make_matrix_storage_by_columns(){
         char *true_data[] = {"eleven\n", "keyboard\n", "Goodbye\n", "aboba"};
         assert(assert_file("test.txt", true_data));
     }
+
+    //№6
+
+    void remove_polynomials_if_x_sqrt_root(char *file_name, int *size, int x) {
+        FILE *file;
+        file = fopen(file_name, "rb");
+        if (file == NULL) {
+            perror(file_name);
+            return;
+        }
+        polynomial polynomials[*size];
+        fread(polynomials, sizeof(polynomial), *size, file);
+        fclose(file);
+        file = fopen(file_name, "wb");
+        polynomial result[*size];
+        int result_size = 0;
+        for (size_t i = 0; i < *size; i++) {
+            if (polynomials[i].coefficient * pow_(x, polynomials[i].power) != x*x ||
+                polynomials[i].power == 0) {
+                result[result_size].power = polynomials[i].power;
+                result[result_size++].coefficient = polynomials[i].coefficient;
+            }
+        }
+        fwrite(result, sizeof(polynomial), result_size, file);
+        *size = result_size;
+        fclose(file);
+    }
+    void test_remove_polynomials_if_x_sqrt_root() {
+        polynomial polynomials[] = {{3, 2}, {2, 1}, {1, -2}, {0, 3}};
+        int size = 4;
+        int x = 3;
+        FILE *test;
+        test = fopen("test.bin", "wb");
+        fwrite(polynomials, sizeof(polynomial), size, test);
+        fclose(test);
+        polynomial true_data[] = {{3, 2},{1, -2}, {0, 3}};
+        remove_polynomials_if_x_sqrt_root("test.bin", &size, x);
+        assert(size == 3);
+        polynomial results[size];
+        test = fopen("test.bin", "rb");
+        fread(results, sizeof(polynomial), size, test);
+        for (size_t i = 0; i < size; i++) {
+            assert(results[i].power == true_data[i].power && results[i].coefficient
+                                                             == true_data[i].coefficient);
+        }
+    }
+
 

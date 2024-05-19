@@ -52,4 +52,8 @@ void save_only_longest_word_in_string(char *file_name);
 
 void test_save_only_longest_word_in_string();
 
+void remove_polynomials_if_x_sqrt_root(char *file_name, int *size, int x);
+
+void test_remove_polynomials_if_x_sqrt_root();
+
 #endif
