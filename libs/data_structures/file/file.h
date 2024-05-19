@@ -44,4 +44,8 @@ void calculate_expression(char *file_name);
 
 void test_calculate_expression();
 
+void save_only_words_with_sequence(char *file_name, char *sequence);
+
+void test_save_only_words_with_sequence();
+
 #endif
