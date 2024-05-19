@@ -40,5 +40,8 @@ void represent_as_floating_point_numbers(char *file_name);
 
 void test_represent_as_floating_point_numbers();
 
+void calculate_expression(char *file_name);
+
+void test_calculate_expression();
 
 #endif
