@@ -64,4 +64,10 @@ void transpose_non_symmetric_matrices(char *file_name, size_t size);
 
 void test_transpose_non_symmetric_matrices();
 
+void sort_sportsmen(sportsman sportsmen[], size_t size);
+
+void make_team(char *file_name, size_t size, size_t players_need);
+
+void test_make_team();
+
 #endif

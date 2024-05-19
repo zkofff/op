@@ -83,8 +83,7 @@ void test_make_matrix_storage_by_columns(){
     fprintf(test, "3\n1 2 3\n4 5 6\n7 8 9\n0\n2\n11 15\n3 70\n1\n54");
     fclose(test);
     make_matrix_storage_by_columns("test.txt");
-    char *true_data[] ={"3\n", "1 4 7\n", "2 5 8\n", "3 6 9\n", "0\n", "2\n", "11
-            3\n", "15 70\n", "1\n", "54"};
+    char *true_data[] ={"3\n", "1 4 7\n", "2 5 8\n", "3 6 9\n", "0\n", "2\n", "11 3\n", "15 70\n", "1\n", "54"};
             assert(assert_file("test.txt", true_data));
     }
     void test_file1(){
@@ -149,8 +148,7 @@ void test_make_matrix_storage_by_columns(){
             double a = atof(elements.words[0].begin);
             double b = atof(elements.words[2].begin);
             double c = atof(elements.words[4].begin);
-            if ((*elements.words[1].begin == '+' || *elements.words[1].begin == '-')
-                && (*elements.words[3].begin == '*' || *elements.words[3].begin == '/')) {
+            if ((*elements.words[1].begin == '+' || *elements.words[1].begin == '-') && (*elements.words[3].begin == '*' || *elements.words[3].begin == '/')) {
                 if (*elements.words[3].begin == '*') {
                     expression_result = b * c;
                 } else {
@@ -388,8 +386,7 @@ void test_make_matrix_storage_by_columns(){
         test = fopen("test.bin", "rb");
         fread(results, sizeof(polynomial), size, test);
         for (size_t i = 0; i < size; i++) {
-            assert(results[i].power == true_data[i].power && results[i].coefficient
-                                                             == true_data[i].coefficient);
+            assert(results[i].power == true_data[i].power && results[i].coefficient == true_data[i].coefficient);
         }
     }
 
@@ -457,8 +454,7 @@ void test_make_matrix_storage_by_columns(){
         fclose(file);
     }
     void test_transpose_non_symmetric_matrices() {
-        matrix matrix_1 = createMatrixFromArray((int[]) {1, 2, 3, 4, 5, 6, 7, 8, 9},
-                                                3, 3);
+        matrix matrix_1 = createMatrixFromArray((int[]) {1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, 3);
         matrix matrix_2 = createMatrixFromArray((int[]) {1, 2, 2, 1}, 2, 2);
         matrix matrices[] = {matrix_1, matrix_2};
         FILE *test;
@@ -473,5 +469,53 @@ void test_make_matrix_storage_by_columns(){
         fclose(test);
         for (size_t i = 0; i < 2; i++) {
             assert(areTwoMatricesEqual(&matrices[i], &true_data[i]));
+        }
+    }
+
+    //№9
+
+    void sort_sportsmen(sportsman sportsmen[], size_t size) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < i; j++) {
+                if (sportsmen[i].best_result > sportsmen[j].best_result) {
+                    sportsman temp = sportsmen[i];
+                    sportsmen[i] = sportsmen[j];
+                    sportsmen[j] = temp;
+                }
+            }
+        }
+    }
+    void make_team(char *file_name, size_t size, size_t players_need) {
+        if (size > players_need) {
+            FILE *file;
+            sportsman sportsmen[size];
+            file = fopen(file_name, "rb");
+            fread(sportsmen, sizeof(sportsman), size, file);
+            fclose(file);
+            sort_sportsmen(sportsmen, size);
+            sportsman team[players_need];
+            for (size_t i = 0; i < players_need; i++) {
+                team[i] = sportsmen[i];
+            }
+            file = fopen(file_name, "wb");
+            fwrite(team, sizeof(sportsman), players_need, file);
+            fclose(file);
+        }
+    }
+    void test_make_team() {
+        sportsman sportsmen[] = {{"sportsman 1", 13}, {"sportsman 2", 15}, {"sportsman 3", 12}, {"sportsman 4", 17}, {"sportsman 5", 16}};
+        FILE *test;
+        test = fopen("test.bin", "wb");
+        fwrite(sportsmen, sizeof(sportsman), 5, test);
+        fclose(test);
+        make_team("test.bin", 5, 3);
+        sportsman team[3];
+        test = fopen("test.bin", "rb");
+        fread(team, sizeof(sportsman), 3, test);
+        fclose(test);
+        sportsman true_data[] = {{"sportsman 4", 17}, {"sportsman 5", 16}, {"sportsman 2", 15}};
+
+        for (size_t i = 0; i < 3; i++) {
+            assert(true_data[i].FIO == team[i].FIO && true_data[i].best_result == team[i].best_result);
         }
     }
