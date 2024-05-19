@@ -81,3 +81,33 @@ void test_make_matrix_storage_by_columns(){
         test_make_matrix_storage_by_columns();
     }
 
+    void represent_as_floating_point_numbers(char *file_name) {
+        FILE *file;
+        file = fopen(file_name, "r");
+        double numbers[MAX_STRINGS_NUMBER];
+        size_t size = 0;
+        while (fscanf(file, "%lf", &numbers[size]) != EOF) {
+            size++;
+        }
+        fclose(file);
+        file = fopen(file_name, "w");
+        for (size_t i = 0; i < size; i++) {
+            if (i == 0) {
+                fprintf(file, "%.2f", numbers[i]);
+            } else {
+                fprintf(file, "\n%.2f", numbers[i]);
+            }
+        }
+        fclose(file);
+    }
+    void test_represent_as_floating_point_numbers() {
+        FILE *test;
+        test = fopen("test.txt", "w");
+        fprintf(test, "12343.3\n332.253\n4322.32\n2.32523");
+        fclose(test);
+        represent_as_floating_point_numbers("test.txt");
+        char *true_data[] = {"12343.30\n", "332.25\n", "4322.32\n", "2.33"};
+        assert(assert_file("test.txt", true_data));
+    }
+
+
