@@ -4,7 +4,7 @@ CMake Error at CMakeLists.txt:6 (add_executable):
   such as generator expressions, and may result in undefined behavior.
 
 
-CMake Error at libs/data_structures/CMakeLists.txt:8 (taget_link_libraries):
+CMake Error at libs/data_structures/CMakeLists.txt:10 (taget_link_libraries):
   Unknown CMake command "taget_link_libraries".
 
 

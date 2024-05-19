@@ -3,7 +3,7 @@ project(ОП)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ОП main.c)
+add_executable(ОП main.c libs/data_structures/file/file.c)
 
 add_subdirectory(libs)
 target_link_libraries(ОП data_structures)
