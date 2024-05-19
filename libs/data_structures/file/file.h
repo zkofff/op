@@ -70,4 +70,8 @@ void make_team(char *file_name, size_t size, size_t players_need);
 
 void test_make_team();
 
+void update_products_information(char *products_file_name, size_t *products_size, char *orders_file_name, size_t orders_size);
+
+void test_update_products_information();
+
 #endif
