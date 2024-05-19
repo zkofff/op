@@ -36,28 +36,36 @@ void make_matrix_storage_by_columns(char *file_name){
         perror(file_name);
         return;
     }
+
     char strings[MAX_STRINGS_NUMBER][MAX_STRING_LENGTH];
     size_t size = 0;
+
     while (!feof(file)){
         fgets(strings[size], MAX_STRING_LENGTH, file);
         size++;
     }
     fclose(file);
     file = fopen(file_name, "w");
+
     for (size_t i = 0; i < size; i++){
         int matrix_size = atoi(strings[i]);
+
         if (i == 0){
             fprintf(file, "%d", matrix_size);
         } else{
             fprintf(file, "\n%d", matrix_size);
         }
         BagOfWords elements[matrix_size];
+
         for (size_t j = 0; j < matrix_size; j++){
             getBagOfWords(&elements[j], strings[i + j + 1]);
         }
+
         for (size_t j = 0; j < matrix_size; j++){
+
             for (size_t g = 0; g < matrix_size; g++){
                 int element = atoi(elements[g].words[j].begin);
+
                 if (g == 0){
                     fprintf(file, "\n%d", element);
                 } else{
@@ -385,4 +393,49 @@ void test_make_matrix_storage_by_columns(){
         }
     }
 
+    //№7
+
+    void sort_negative_after_positive(char *file_name, size_t size) {
+        FILE *file;
+        file = fopen(file_name, "rb");
+        int elements[size];
+        fread(elements, sizeof(int), size, file);
+        fclose(file);
+        int positive_elements[size];
+        int negative_elements[size];
+        size_t positive_elements_size = 0;
+        size_t negative_elements_size = 0;
+        for (size_t i = 0; i < size; i++) {
+            if (elements[i] < 0) {
+                negative_elements[negative_elements_size++] = elements[i];
+            } else {
+                positive_elements[positive_elements_size++] = elements[i];
+            }
+        }
+        for (size_t i = 0; i < positive_elements_size; i++) {
+            elements[i] = positive_elements[i];
+        }
+        for (size_t i = 0; i < negative_elements_size; i++) {
+            elements[positive_elements_size + i] = negative_elements[i];
+        }
+        file = fopen(file_name, "wb");
+        fwrite(elements, sizeof(int), size, file);
+        fclose(file);
+    }
+    void test_sort_negative_after_positive() {
+        int elements[10] = {1, 4, -4, -3, -64, 43, -5, 2, 3, -5};
+        FILE *test;
+        test = fopen("test.bin", "wb");
+        fwrite(elements, sizeof(int), 10, test);
+        fclose(test);
+        sort_negative_after_positive("test.bin", 10);
+        test = fopen("test.bin", "rb");
+        fread(elements, sizeof(int), 10, test);
+        fclose(test);
+        int true_data[10] = {1, 4, 43, 2, 3, -4, -3, -64, -5, -5};
+
+        for (size_t i = 0; i < 10; i++) {
+            assert(true_data[i] == elements[i]);
+        }
+    }
 

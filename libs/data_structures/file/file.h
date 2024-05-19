@@ -56,4 +56,8 @@ void remove_polynomials_if_x_sqrt_root(char *file_name, int *size, int x);
 
 void test_remove_polynomials_if_x_sqrt_root();
 
+void sort_negative_after_positive(char *file_name, size_t size);
+
+void test_sort_negative_after_positive();
+
 #endif
