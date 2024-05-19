@@ -439,3 +439,39 @@ void test_make_matrix_storage_by_columns(){
         }
     }
 
+    //№8
+
+    void transpose_non_symmetric_matrices(char *file_name, size_t size) {
+        FILE *file;
+        matrix matrices[size];
+        file = fopen(file_name, "rb");
+        fread(matrices, sizeof(matrix), size, file);
+        fclose(file);
+        for (size_t i = 0; i < size; i++) {
+            if (!isSymmetricMatrix(&matrices[i])) {
+                transposeMatrix(&matrices[i]);
+            }
+        }
+        file = fopen(file_name, "wb");
+        fwrite(matrices, sizeof(matrix), size, file);
+        fclose(file);
+    }
+    void test_transpose_non_symmetric_matrices() {
+        matrix matrix_1 = createMatrixFromArray((int[]) {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                                                3, 3);
+        matrix matrix_2 = createMatrixFromArray((int[]) {1, 2, 2, 1}, 2, 2);
+        matrix matrices[] = {matrix_1, matrix_2};
+        FILE *test;
+        test = fopen("test.txt", "wb");
+        fwrite(matrices, sizeof(matrix), 2, test);
+        fclose(test);
+        transposeMatrix(&matrix_1);
+        matrix true_data[] = {matrix_1, matrix_2};
+        transpose_non_symmetric_matrices("test.txt", 2);
+        test = fopen("test.txt", "rb");
+        fread(matrices, sizeof(matrix), 2, test);
+        fclose(test);
+        for (size_t i = 0; i < 2; i++) {
+            assert(areTwoMatricesEqual(&matrices[i], &true_data[i]));
+        }
+    }
