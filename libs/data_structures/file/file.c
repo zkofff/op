@@ -281,4 +281,51 @@ void test_make_matrix_storage_by_columns(){
         assert(assert_file("test.txt", true_data));
     }
 
+    void save_only_longest_word_in_string(char *file_name) {
+        FILE *file;
+        file = fopen(file_name, "r");
+        if (file == NULL) {
+            perror(file_name);
+            return;
+        }
+        char strings[MAX_STRINGS_NUMBER][MAX_STRING_LENGTH];
+        size_t size = 0;
+        while (!feof(file)) {
+            fgets(strings[size], MAX_STRING_LENGTH, file);
+            size++;
+        }
+        fclose(file);
+        file = fopen(file_name, "w");
+        for (size_t i = 0; i < size; i++) {
+            BagOfWords words;
+            getBagOfWords(&words, strings[i]);
+            size_t max_len = 0;
+            char longest_word[MAX_STRING_LENGTH];
+            for (size_t j = 0; j < words.size; j++) {
+                char word[MAX_STRING_LENGTH];
+                wordDescriptorToString(words.words[j], word);
+                size_t len = strlen_(word);
+                if (len > max_len) {
+                    max_len = len;
+                    copy(word, word + len, longest_word);
+                }
+            }
+            if (i == 0) {
+                fprintf(file, "%s", longest_word);
+            } else {
+                fprintf(file, "\n%s", longest_word);
+            }
+        }
+        fclose(file);
+    }
+    void test_save_only_longest_word_in_string() {
+        FILE *test;
+        test = fopen("test.txt", "w");
+        fprintf(test, "one two three eleven\nkeyboard button switch\nHello
+        Goodbye\naboba");
+        fclose(test);
+        save_only_longest_word_in_string("test.txt");
+        char *true_data[] = {"eleven\n", "keyboard\n", "Goodbye\n", "aboba"};
+        assert(assert_file("test.txt", true_data));
+    }
 
