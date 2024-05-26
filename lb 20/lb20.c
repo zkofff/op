@@ -595,3 +595,43 @@ void get_new_node(int *nums, int size, prefix pref) {
         }
     }
 }
+
+//11
+void task_11() {
+    int n, q;
+    scanf("%d %d", &n, &q);
+    char dictionary[n][MAX_STRING_SIZE];
+
+    for (int i = 0; i < n; i++) {
+        scanf("%s", dictionary[i]);
+    }
+
+    for (int i = 0; i < q; i++) {
+        int k;
+        char p[MAX_STRING_SIZE];
+        scanf("%d %s", &k, p);
+
+        int index = 1;
+        bool is_word_founded = false;
+
+        for (int j = 0; j < n && !is_word_founded; j++) {
+            if (is_prefix(dictionary[j], p)) {
+                if (index == k) {
+                    printf("%d\n", j + 1);
+                    is_word_founded = true;
+                } else {
+                    index++;
+                }
+            }
+        }
+
+        if (!is_word_founded) {
+            printf("-1\n");
+        }
+    }
+}
+
+void test_task_11() {
+    task_11();
+}
+
