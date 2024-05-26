@@ -55,6 +55,9 @@ void test_task_8();
 
 void fill_file(int *numbers, int size, char *file_name);
 
+void task_9(int *numbers, int size, int n, char *file_name_1, char *file_name_2);
+
+void test_task_9(int argc, char **argv);
 
 
 
