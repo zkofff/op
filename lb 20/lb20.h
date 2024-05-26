@@ -21,6 +21,11 @@ void test_task_1();
 
 int count_living_neighboring_cells(int m, int n, int board[m][n], int i, int j);
 
+void task_2(int m, int n, int board[m][n]);
+
+void test_task_2();
+
+void get_median(int filter, int matrix[filter][filter], int i, int j);
 
 
 
