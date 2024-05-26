@@ -19,6 +19,7 @@ int** task_1(int n, int query[][4], size_t size);
 
 void test_task_1();
 
+int count_living_neighboring_cells(int m, int n, int board[m][n], int i, int j);
 
 
 

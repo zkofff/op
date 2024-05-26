@@ -10,6 +10,7 @@
 #include "E:\ОП\libs\data_structures\string\string_.h"
 #include "E:\ОП\libs\data_structures\file\file.h"
 
+//1
 int** task_1(int n, int query[][4], size_t size) {
     matrix result = getMemMatrix(n, n);
 
@@ -53,4 +54,42 @@ void test_task_1() {
         }
     }
 }
+
+int count_living_neighboring_cells(int m, int n, int board[n][m], int i, int j) {
+    int result = 0;
+
+    if (i != 0) {
+        result += board[i - 1][j];
+        if (j != 0) {
+            result += board[i - 1][j - 1];
+        }
+        if (j != m - 1) {
+            result += board[i - 1][j + 1];
+        }
+    }
+
+    if (i != n - 1) {
+        result += board[i + 1][j];
+        if (j != 0) {
+            result += board[i + 1][j - 1];
+        }
+        if (j != m - 1) {
+            result += board[i + 1][j + 1];
+        }
+    }
+
+    if (j != 0) {
+        result += board[i][j - 1];
+    }
+
+    if (j != m - 1) {
+        result += board[i][j + 1];
+    }
+
+    return result;
+}
+
+//2
+
+
 
