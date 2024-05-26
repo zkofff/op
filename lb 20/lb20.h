@@ -31,6 +31,11 @@ void task_3(int filter, int matrix[filter][filter]);
 
 void test_task_3();
 
+void task_4(char **cpdomains, int size);
+
+void test_task_4();
+
+void fill_matrix(matrix m, matrix *new_matrix, int rows, int cols);
 
 
 

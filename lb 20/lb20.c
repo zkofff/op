@@ -197,6 +197,79 @@ void test_task_3() {
     }
 }
 
+//4
+void task_4(char **cpdomains, int size) {
+    int domains_number = 0;
+
+    for (int i = 0; i < size; i++) {
+        size_t len = strlen(cpdomains[i]);
+        char *string = cpdomains[i];
+        for (char *s = string; s != string + len; s++) {
+            if (*s == '.') {
+                domains_number++;
+            }
+        }
+        domains_number++;
+    }
+
+    domain domains[domains_number];
+    int domains_size = 0;
+
+    for (int i = 0; i < size; i++) {
+        int visits = atoi(cpdomains[i]);
+        size_t len = strlen(cpdomains[i]);
+        char *string = cpdomains[i];
+        for (char *s = string + len; s != string; s--) {
+            if (*s == '.' || *s == ' ') {
+                bool is_new_domain = true;
+                for (int j = 0; j < domains_size && is_new_domain; j++) {
+                    if (strcmp(s + 1, domains[j].name) == 0) {
+                        domains[j].visits_number += visits;
+                        is_new_domain = false;
+                    }
+                }
+                if (is_new_domain) {
+                    domains[domains_size].visits_number = visits;
+                    domains[domains_size].name = s + 1;
+                    domains_size++;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < domains_size; i++) {
+        printf("%d %s\n", domains[i].visits_number, domains[i].name);
+    }
+}
+
+void test_task_4() {
+    char *cpdomains_1[] = {"9001 discuss.codeforces.com"};
+    int size_1 = 1;
+    task_4(cpdomains_1, size_1);
+    printf("\n");
+    char *cpdomains_2[] = {"900 google.mail.com",
+                           "50 yahoo.com",
+                           "1 intel.mail.com",
+                           "5 wiki.org"};
+    int size_2 = 4;
+    task_4(cpdomains_2, size_2);
+}
+
+void fill_matrix(matrix m, matrix *new_matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (m.values[i][j] == 1) {
+                if (i != 0) {
+                    new_matrix->values[i][j] = new_matrix->values[i - 1][j] + 1;
+                } else {
+                    new_matrix->values[i][j] = 1;
+                }
+            } else {
+                new_matrix->values[i][j] = 0;
+            }
+        }
+    }
+}
 
 
 
