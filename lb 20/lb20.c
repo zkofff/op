@@ -431,3 +431,38 @@ bool is_prefix(char *string, char *prefix) {
     return result;
 }
 
+//8
+void task_8(char *s, int *indices, char *result, int size) {
+    for (int i = 0; i < size; i++) {
+        result[i] = s[indices[i]];
+    }
+
+    result[size] = '\0';
+}
+
+void test_task_8() {
+    char s_1[4] = "abc";
+    int indices_1[3] = {0, 1, 2};
+    char *result_1[4];
+    char true_data_1[4] = "abc";
+    task_8(s_1, indices_1, result_1, 3);
+    assert(strcmp(result_1, true_data_1) == 0);
+
+    char s_2[5] = "abap";
+    int indices_2[4] = {0, 3, 2, 1};
+    char *result_2[5];
+    char true_data_2[5] = "apab";
+    task_8(s_2, indices_2, result_2, 4);
+    assert(strcmp(result_2, true_data_2) == 0);
+}
+
+void fill_file(int *numbers, int size, char *file_name) {
+    FILE *file;
+    file = fopen(file_name, "w");
+    for (int i = 0; i < size; i++) {
+        fprintf(file, "%d ", numbers[i]);
+    }
+
+    fclose(file);
+}
+
