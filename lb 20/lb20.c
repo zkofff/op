@@ -351,4 +351,83 @@ void test_task_6() {
 }
 
 //7
+void task_7(int *nums, int size) {
+    if (size == 0) {
+        printf("{}\n");
+        return;
+    }
+
+    printf("{");
+
+    int max_element_index = get_max_element_index(nums, 0, size - 1);
+    printf("%d, ", nums[max_element_index]);
+
+    if (size > 1) {
+        prefix left_prefix;
+        left_prefix.size = max_element_index;
+        if (left_prefix.size > 0) {
+            left_prefix.begin_index = 0;
+            left_prefix.end_index = max_element_index - 1;
+        }
+
+        prefix right_prefix;
+        right_prefix.size = size - max_element_index - 1;
+        if (right_prefix.size > 0) {
+            right_prefix.begin_index = max_element_index + 1;
+            right_prefix.end_index = size - 1;
+        }
+
+        if (left_prefix.size > 0 && right_prefix.size > 0) {
+            get_new_node(nums, size, left_prefix);
+            get_new_node(nums, size, right_prefix);
+        } else if (right_prefix.size > 0) {
+            printf("null, ");
+            get_new_node(nums, size, right_prefix);
+        } else {
+            get_new_node(nums, size, left_prefix);
+            printf("null, ");
+        }
+    }
+    printf("\b\b}\n");
+}
+
+void test_task_7() {
+    int nums_1[6] = {3, 2, 1, 6, 0, 5};
+    int size_1 = 6;
+    task_7(nums_1, size_1);
+
+    int nums_2[3] = {3, 2, 1};
+    int size_2 = 3;
+    task_7(nums_2, size_2);
+
+    int nums_3[5] = {5, 3, 2, 4, 1};
+    int size_3 = 5;
+    task_7(nums_3, size_3);
+
+    int nums_4[5] = {2, 3, 1, 4, 5};
+    int size_4 = 5;
+    task_7(nums_4, size_4);
+}
+
+bool is_prefix(char *string, char *prefix) {
+    bool result = true;
+    char buffer_string = *string;
+    char buffer_prefix = *prefix;
+
+    while ((*string != '\0' || *prefix != '\0') && result) {
+        if (*prefix == '\0') {
+            return result;
+        } else if (*string == '\0') {
+            result = false;
+        } else {
+            if (*prefix != *string) {
+                result = false;
+            }
+            prefix++;
+            string++;
+        }
+    }
+
+    return result;
+}
 

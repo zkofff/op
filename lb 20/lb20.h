@@ -45,6 +45,10 @@ void task_6(char *string, int len, char *result, int *result_len);
 
 void test_task_6();
 
+void task_7(int *nums, int size);
+
+void test_task_7();
+
 
 
 
