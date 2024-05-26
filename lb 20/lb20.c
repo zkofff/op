@@ -466,6 +466,7 @@ void fill_file(int *numbers, int size, char *file_name) {
     fclose(file);
 }
 
+//9
 void task_9(int *numbers, int size, int n, char *file_name_1, char *file_name_2) {
     FILE *write_file = fopen(file_name_2, "w");
     FILE *read_file = fopen(file_name_1, "r");
@@ -500,4 +501,97 @@ static bool is_pressed = false;
 
 void handler() {
     is_pressed = true;
+}
+
+//10
+void task_10(char *file_name, int n) {
+    FILE *file = fopen(file_name, "r");
+    char string[100];
+    int index = 0;
+
+    while (!feof(file)) {
+        if (index % n == 0 && index != 0) {
+            printf("Press ctrl+c to continue.\n");
+            signal(SIGINT, handler);
+
+            while (!is_pressed) {
+                sleep(1);
+            }
+        }
+
+        fgets(string, 100, file);
+        printf("%s", string);
+        index++;
+        is_pressed = false;
+    }
+
+    fclose(file);
+}
+
+void fill_file_2(char **strings, int size, char *file_name) {
+    FILE *file;
+    file = fopen(file_name, "w");
+    for (int i = 0; i < size; i++) {
+        if (i != size - 1) {
+            fprintf(file, "%s\n", strings[i]);
+        } else {
+            fprintf(file, "%s", strings[i]);
+        }
+    }
+
+    fclose(file);
+}
+
+void test_task_10(int argc, char **argv) {
+    char *strings[] = {"string 1", "string 2", "string 3", "string 4", "string 5", "string 6"};
+    char *file_name = argv[1];
+    int n = atoi(argv[2]);
+    fill_file_2(strings, 6, file_name);
+    task_10(file_name, n);
+}
+
+int get_max_element_index(int *nums, int begin_index, int end_index) {
+    int max_number = nums[begin_index];
+    int max_number_index = begin_index;
+
+    for (int i = begin_index + 1; i <= end_index; i++) {
+        if (nums[i] > max_number) {
+            max_number = nums[i];
+            max_number_index = i;
+        }
+    }
+
+    return max_number_index;
+}
+
+void get_new_node(int *nums, int size, prefix pref) {
+    int max_element_index = get_max_element_index(nums, pref.begin_index, pref.end_index);
+    printf("%d, ", nums[max_element_index]);
+
+    if (pref.size > 1) {
+        prefix left_prefix;
+        left_prefix.size = max_element_index - pref.begin_index;
+        if (left_prefix.size > 0) {
+            left_prefix.begin_index = pref.begin_index;
+            left_prefix.end_index = pref.begin_index + left_prefix.size - 1;
+        }
+
+        prefix right_prefix;
+        right_prefix.size = pref.end_index - max_element_index;
+        if (right_prefix.size > 0) {
+            right_prefix.end_index = pref.end_index;
+            right_prefix.begin_index = right_prefix.end_index - right_prefix.size + 1;
+        }
+
+        if (left_prefix.size > 0 && right_prefix.size > 0) {
+            get_new_node(nums, size, left_prefix);
+            get_new_node(nums, size, right_prefix);
+        } else if (right_prefix.size > 0) {
+            printf("null, ");
+            get_new_node(nums, size, right_prefix);
+        } else {
+            get_new_node(nums, size, left_prefix);
+            printf("null, ");
+        }
+    }
 }

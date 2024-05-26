@@ -59,6 +59,16 @@ void task_9(int *numbers, int size, int n, char *file_name_1, char *file_name_2)
 
 void test_task_9(int argc, char **argv);
 
+void task_10(char *file_name, int n);
+
+void test_task_10(int argc, char **argv);
+
+int get_max_element_index(int *nums, int begin_index, int end_index);
+
+void get_new_node(int *nums, int size, prefix pref);
+
+
+
 
 
 #endif
