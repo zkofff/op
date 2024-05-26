@@ -37,7 +37,9 @@ void test_task_4();
 
 void fill_matrix(matrix m, matrix *new_matrix, int rows, int cols);
 
+int task_5(matrix m, int rows, int cols);
 
+void test_task_5();
 
 
 

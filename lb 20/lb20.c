@@ -271,5 +271,48 @@ void fill_matrix(matrix m, matrix *new_matrix, int rows, int cols) {
     }
 }
 
+//5
+int task_5(matrix m, int rows, int cols) {
+    matrix new_matrix = getMemMatrix(rows, cols);
+    fill_matrix(m, &new_matrix, rows, cols);
+    int result = 0;
+
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            for (int k = i + 1; k < cols + 1; k++) {
+                int min = new_matrix.values[j][i];
+
+                for (int g = i; g < k; g++) {
+                    if (new_matrix.values[j][g] < min)
+                        min = new_matrix.values[j][g];
+                }
+
+                result += min;
+            }
+        }
+    }
+
+    return result;
+}
+
+void test_task_5() {
+    matrix matrix_1 = createMatrixFromArray((int[]) {
+                                                    1, 0, 1,
+                                                    1, 1, 0,
+                                                    1, 1, 0},
+                                            3, 3);
+    int result_1 = task_5(matrix_1, 3, 3);
+    assert(result_1 == 13);
+
+    matrix matrix_2 = createMatrixFromArray((int[]) {
+                                                    1, 1, 1, 0,
+                                                    0, 0, 1, 1,
+                                                    1, 0, 0, 0},
+                                            3, 4);
+    int result_2 = task_5(matrix_2, 3, 4);
+    assert(result_2 == 11);
+}
+
+//6
 
 
